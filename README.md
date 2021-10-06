@@ -1,11 +1,12 @@
 # Lab Agora Proxy
 
-Dockerized domain binfing proxy for Lab Agora server.
+Dockerized domain binding proxy for Lab Agora server using [Traefik Proxy](https://traefik.io/traefik/).
 
 - [How it works](#how-it-works)
   - [Remote server](#remote-server)
 - [Server Deployment](#server-deployment)
-  - [Automated Git Deployment Setup](#automated-git-deployment-setup)
+  - [Git Deployment Setup](#git-deployment-setup)
+  - [Proxy Setup](#proxy-setup)
 
 ## How it works
 
@@ -16,18 +17,12 @@ Dockerized domain binfing proxy for Lab Agora server.
 
 Each repository, representing each dockerized web-service, has a corresponding directory in both above directories.
 
-All the dockerized web-services will use the same Dcoker network, which must be created once and for all while deploying
-this proxy container.
-
-Each dockerized web-service will then declare its [FQDN](https://en.wikipedia.org/wiki/Fully_qualified_domain_name) via
-a `VIRTUAL_HOST` environment variable under its public entry-point service (within its `docker-compose.yml` config).
-
-The current dockerized proxy will then listen on the port declared and automatically bind the declared domain name to
-the matching web-service.
+All the dockerized web-services will use the same Docker network, and the domain binding is handled by Traefik Proxy
+which is provided via the current repository.
 
 ## Server Deployment
 
-### Automated Git Deployment Setup
+### Git Deployment Setup
 
 Prepare remote server directories structure:
 
@@ -77,20 +72,28 @@ Give the execution rights:
 chmod +x post-receive
 ```
 
-Create the shared Docker network:
-
-```sh
-docker network create proxy
-```
-
 You can now exit and go into you your local proxy directory to add your server repository reference:
 
 ```
 git remote add live ssh://<USERNAME>@<SERVER_IP>/home/<USERNAME>/repositories/vps.git
 ```
 
-Everything i snow setup for the proxy part and you can simply push any new commit via:
+Everything is now ready for the proxy part and you will now be able to push any new commit via:
 
 ```sh
 git push live main
+```
+
+### Proxy Setup
+
+Connect to the remote server:
+
+```sh
+ssh <USERNAME>@<SERVER_IP>
+```
+
+Create the shared Docker network (you may need to run it via sudo):
+
+```sh
+docker network create proxy
 ```
