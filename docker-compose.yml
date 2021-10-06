@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  app:
+    container_name: proxy_app
+    image: jwilder/nginx-proxy
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+networks:
+  default:
+    external:
+      name: proxy
