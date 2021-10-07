@@ -34,8 +34,8 @@ Prepare remote server directories structure:
 
 ```sh
 ssh <USERNAME>@<SERVER_IP>
-mkdir ~/deployments
-mkdir ~/repositories
+mkdir -p ~/deployments/inca-proxy
+mkdir -p ~/repositories
 ```
 
 Add the current proxy Git repository workflow:
