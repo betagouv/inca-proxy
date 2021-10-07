@@ -1,11 +1,11 @@
-# Lab Agora Proxy
+# Lab Agora - Server Reverse Proxy
 
 Dockerized reverse proxy for Lab Agora server using [Traefik Proxy](https://traefik.io/traefik/).
 
 - [How it works](#how-it-works)
   - [Requirements](#requirements)
   - [Remote server](#remote-server)
-- [Server Deployment](#server-deployment)
+- [Deployment](#deployment)
   - [Git Deployment Setup](#git-deployment-setup)
   - [Proxy Setup](#proxy-setup)
 
@@ -26,7 +26,7 @@ Each repository, representing each dockerized web-service, has a corresponding d
 All the dockerized web-services will use the same Docker network (called `proxy` in our case), and the domain binding is
 handled by a Docker-serviced Traefik Proxy which is provided via the current repository.
 
-## Server Deployment
+## Deployment
 
 ### Git Deployment Setup
 
