@@ -5,12 +5,12 @@ http:
         usersfile: "/.users"
 
   routers:
-    api:
+    traefik:
       rule: "Host(`traefik.lab-agora.fr`)"
       entrypoints:
         - "websecure"
       middlewares:
         - "simpleAuth"
-      service: "api@internal"
+      service: "traefik@internal"
       tls:
         certResolver: "lets-encrypt"
