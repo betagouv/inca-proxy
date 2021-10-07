@@ -1,4 +1,9 @@
 http:
+  middlewares:
+    simpleAuth:
+      basicAuth:
+        usersfile: "/.users"
+
   routers:
     api:
       rule: "Host(`traefik.lab-agora.fr`)"

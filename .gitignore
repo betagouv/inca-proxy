@@ -1,4 +1,4 @@
 /lets-encrypt/*
 !/lets-encrypt/.gitkeep
 
-/.env
+/.users

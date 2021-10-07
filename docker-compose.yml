@@ -5,14 +5,13 @@ services:
     container_name: proxy_app
     image: traefik:v2.5
     restart: always
-    command:
-      - "--http.middlewares.simpleAuth.basicAuth.users=${TRAEFIK_ADMIN_CREDENTIALS}"
     ports:
       - 80:80
       - 443:443
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./lets-encrypt:/lets-encrypt
+      - ./.users:/.users
       - ./traefik.yml:/traefik.yml
       - ./traefik_dynamic.yml:/traefik_dynamic.yml
 
