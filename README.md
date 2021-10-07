@@ -1,8 +1,9 @@
 # Lab Agora Proxy
 
-Dockerized domain binding proxy for Lab Agora server using [Traefik Proxy](https://traefik.io/traefik/).
+Dockerized reverse proxy for Lab Agora server using [Traefik Proxy](https://traefik.io/traefik/).
 
 - [How it works](#how-it-works)
+  - [Requirements](#requirements)
   - [Remote server](#remote-server)
 - [Server Deployment](#server-deployment)
   - [Git Deployment Setup](#git-deployment-setup)
@@ -10,15 +11,20 @@ Dockerized domain binding proxy for Lab Agora server using [Traefik Proxy](https
 
 ## How it works
 
+### Requirements
+
+The next steps suppose that you already enabled server SSH authentication via your local SSH key
+(`ssh-copy-id <USERNAME>@<SERVER_IP>`) and that the same key is used for all your Git repositories.
+
 ### Remote server
 
-`~/repositories` is where bare Git repositories "listening" to Git pushes (via a `post-receive` hook) live.
+`~/repositories` is where bare Git repositories "listening" to Git pushes (via a `post-receive` hook) live.  
 `~/deployments` is where Git repositories data is deployed.
 
 Each repository, representing each dockerized web-service, has a corresponding directory in both above directories.
 
-All the dockerized web-services will use the same Docker network, and the domain binding is handled by Traefik Proxy
-which is provided via the current repository.
+All the dockerized web-services will use the same Docker network (called `proxy` in our case), and the domain binding is
+handled by a Docker-serviced Traefik Proxy which is provided via the current repository.
 
 ## Server Deployment
 
@@ -47,15 +53,14 @@ with could look like this:
 # Exit when any command fails:
 set -e
 
-TARGET="/home/<USERNAME>/deployments/vps"
-GIT_DIR="/home/<USERNAME>/repositories/vps.git"
+TARGET="/home/<USERNAME>/deployments/inca-proxy"
+GIT_DIR="/home/<USERNAME>/repositories/inca-proxy.git"
 BRANCH="main"
 
 while read oldrev newrev ref
 do
   # Only checking out the specified branch:
-  if [[ $ref = "refs/heads/${BRANCH}" ]]
-  then
+  if [[ $ref = "refs/heads/${BRANCH}" ]]; then
     echo "Git reference $ref received. Deploying ${BRANCH} branch to production..."
     git --work-tree="$TARGET" --git-dir="$GIT_DIR" checkout -f "$BRANCH"
     cd $TARGET
@@ -69,13 +74,13 @@ done
 Give the execution rights:
 
 ```sh
-chmod +x post-receive
+chmod +x ~/repositories/inca-proxy.git/hooks/post-receive
 ```
 
 You can now exit and go into you your local proxy directory to add your server repository reference:
 
 ```
-git remote add live ssh://<USERNAME>@<SERVER_IP>/home/<USERNAME>/repositories/vps.git
+git remote add live ssh://<USERNAME>@<SERVER_IP>/home/<USERNAME>/repositories/inca-proxy.git
 ```
 
 Everything is now ready for the proxy part and you will now be able to push any new commit via:
