@@ -48,7 +48,7 @@ vim ~/repositories/inca-proxy.git/hooks/post-receive
 with could look like this:
 
 ```sh
-#!/bin/sh
+#!/bin/bash
 
 # Exit when any command fails:
 set -e
