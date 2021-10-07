@@ -5,9 +5,8 @@ services:
     container_name: proxy_app
     image: traefik:v2.5
     restart: always
-    environment:
-      TRAEFIK_ADMIN_USERNAME: $TRAEFIK_ADMIN_USERNAME
-      TRAEFIK_ADMIN_PASSWORD: $TRAEFIK_ADMIN_PASSWORD
+    command:
+      - "--http.middlewares.simpleAuth.basicAuth.users=${TRAEFIK_ADMIN_CREDENTIALS}"
     ports:
       - 80:80
       - 443:443

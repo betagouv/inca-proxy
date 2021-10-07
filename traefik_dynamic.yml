@@ -1,10 +1,4 @@
 http:
-  middlewares:
-    simpleAuth:
-      basicAuth:
-        users:
-          - "${TRAEFIK_ADMIN_USERNAME}:${TRAEFIK_ADMIN_PASSWORD}"
-
   routers:
     api:
       rule: "Host(`traefik.lab-agora.fr`)"
