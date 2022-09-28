@@ -4,7 +4,7 @@
 set -e
 
 echo "Stopping existing Docker containers..."
-docker-compose down
+docker compose down
 
 echo "Starting Docker 'reverse-proxy' container..."
-docker-compose up -d reverse-proxy
+docker compose up -d reverse-proxy
