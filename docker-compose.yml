@@ -3,7 +3,7 @@ version: "3.9"
 services:
   reverse-proxy:
     container_name: proxy_app
-    image: traefik:v2.5
+    image: traefik:v2.8
     restart: always
     ports:
       - 80:80
