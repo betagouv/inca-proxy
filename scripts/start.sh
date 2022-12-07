@@ -6,5 +6,8 @@ set -e
 echo "Stopping existing Docker containers..."
 docker compose down
 
+echo "Creating `proxy` network if doesn't exist..."
+docker network inspect proxy >/dev/null 2>&1 || docker network create proxy
+
 echo "Starting Docker 'reverse-proxy' container..."
-docker compose up -d reverse-proxy
+docker compose up reverse-proxy

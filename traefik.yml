@@ -1,5 +1,17 @@
+# https://doc.traefik.io/traefik/v2.0/https/acme/
 # https://www.digitalocean.com/community/tutorials/how-to-use-traefik-v2-as-a-reverse-proxy-for-docker-containers-on-ubuntu-20-04
 # https://dev.to/cedrichopf/get-started-with-traefik-2-using-docker-compose-35f9
+
+api:
+  dashboard: true
+
+certificatesResolvers:
+  lets-encrypt:
+    acme:
+      email: "contact@lab-agora.fr"
+      storage: "acme.json"
+      httpChallenge:
+        entryPoint: "web"
 
 entryPoints:
   web:
@@ -13,19 +25,8 @@ entryPoints:
   websecure:
     address: ":443"
 
-api:
-  dashboard: true
-
-certificatesResolvers:
-  lets-encrypt:
-    acme:
-      email: "contact@lab-agora.fr"
-      storage: "/lets-encrypt/acme.json"
-      tlsChallenge: {}
-
 providers:
   docker:
-    exposedbydefault: false
     network: "proxy"
     watch: true
 
