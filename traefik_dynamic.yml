@@ -1,16 +1,22 @@
 http:
   middlewares:
-    simpleAuth:
+    auth:
       basicAuth:
         usersfile: "/.users"
 
   routers:
-    api:
+    local_dashboard:
       rule: "Host(`localhost`)"
       entrypoints:
         - "web"
+      service: "api@internal"
+
+    public_dashbord:
+      rule: "Host(`traefik.lab-agora.fr`)"
+      entrypoints:
+        - "web"
       middlewares:
-        - "simpleAuth"
+        - "auth"
       service: "api@internal"
       # tls:
       #   certResolver: "lets-encrypt"
