@@ -11,12 +11,20 @@ http:
         - "web"
       service: "api@internal"
 
+    private_dashboard:
+      rule: "Host(`10.100.0.170`)"
+      entrypoints:
+        - "web"
+      service: "api@internal"
+      middlewares:
+        - "auth"
+
     public_dashbord:
       rule: "Host(`traefik.lab-agora.fr`)"
       entrypoints:
         - "web"
+      service: "api@internal"
       middlewares:
         - "auth"
-      service: "api@internal"
       # tls:
       #   certResolver: "lets-encrypt"
