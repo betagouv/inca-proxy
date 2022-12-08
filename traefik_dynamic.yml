@@ -20,7 +20,7 @@ http:
         - "auth"
 
     public_dashbord:
-      rule: "Host(`traefik.lab-agora.fr`)"
+      rule: "Host(`labagora.e-cancer.fr`)"
       entrypoints:
         - "web"
       service: "api@internal"
