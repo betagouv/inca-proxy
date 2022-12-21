@@ -3,29 +3,23 @@ http:
     basic_authentication:
       basicAuth:
         usersfile: "/config/.users"
-    https_redirection:
-      redirectScheme:
-        scheme: https
-        permanent: true
 
   routers:
     local_dashboard:
       rule: "Host(`localhost`)"
       entrypoints:
-        - "web"
-        # - "websecure"
-      # middlewares:
-      #   - "https_redirection"
+        - "websecure"
       service: "api@internal"
-      # tls: true
+      tls: true
 
     private_dashboard:
       rule: "Host(`10.100.0.170`)"
       entrypoints:
-        - "web"
+        - "websecure"
       middlewares:
         - "basic_authentication"
       service: "api@internal"
+      tls: true
 
     public_dashbord:
       rule: "Host(`traefik-labagora.e-cancer.fr`)"
@@ -33,7 +27,6 @@ http:
         - "websecure"
       middlewares:
         - "basic_authentication"
-        - "https_redirection"
       service: "api@internal"
       tls: true
 
