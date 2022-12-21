@@ -3,15 +3,27 @@ services:
     container_name: proxy_app
     image: traefik:v2.9
     restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./config:/config:ro
+      - ./traefik.yml:/traefik.yml:ro
     ports:
       - 80:80
       - 443:443
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./lets-encrypt:/lets-encrypt
-      - ./.users:/.users
-      - ./traefik.yml:/traefik.yml
-      - ./traefik_dynamic.yml:/traefik_dynamic.yml
+    networks:
+      - proxy
+
+  whoami:
+    image: containous/whoami
+    labels:
+      - "traefik.http.routers.whoami_http.rule=Host(`whoami.docker.localhost`)"
+      - "traefik.http.routers.whoami_http.entrypoints=web"
+      # - "traefik.http.routers.whoami_http.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+
+      # - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
+      # - "traefik.http.routers.whoami.entrypoints=websecure"
+      # - "traefik.http.routers.whoami.tls=true"
     networks:
       - proxy
 
